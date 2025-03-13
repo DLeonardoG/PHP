@@ -1,3 +1,9 @@
-FROM php:7.4-apache
-COPY /src/ /var/www/html
-EXPOSE 80
+FROM php:8.0.0-apache
+ARG DEBIAN_FRONTEND=non
+interactive
+RUN docker-php-ext-install mysqli
+RUN apt update \
+    && apt install libzip-dev zlib1g-dev -y \
+    && rm -rf /var/lib/apt/lists/* \
+    && docker-php-ext-install zip
+RUN a2enmod rewrite
