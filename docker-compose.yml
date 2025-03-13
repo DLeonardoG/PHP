@@ -30,3 +30,5 @@ services:
       MYSQL_USER: user1
       MYSQL_PASSWORD: user1.pa55
       MYSQL_ROOT_PASSWORD: root.pa55
+
+      
