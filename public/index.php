@@ -11,7 +11,7 @@
             <?php
                 echo '<h1>Usuarios del sistema</h1>';
                 $conn = mysqli_connect('db','root','root.pa55');
-                $database = mysqli_select_db($conn, 'db_ejm1');
+                $database = mysqli_select_db($conn, 'ricurasAltas');
                 $query = 'SELECT * FROM Usuarios';
                 $result = mysqli_query($conn, $query);
                 echo '<table class="table table-striped">';
