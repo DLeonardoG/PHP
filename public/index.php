@@ -3,46 +3,29 @@
     <head>
         <title>LAMP con Docker</title>
         <meta charset="utf-8">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     </head>
     <body>
         <div class="container-fluid">
             <?php
                 echo '<h1>Usuarios del sistema</h1>';
-                
-                // Conexión a PostgreSQL
-                $conn = pg_connect("
-                    host=db 
-                    dbname=db_ejm1 
-                    user=user1 
-                    password=user1.pa55
-                ");
-
-                if (!$conn) {
-                    die("Error de conexión: " . pg_last_error());
-                }
-
+                $conn = mysqli_connect('db','root','root.pa55');
+                $database = mysqli_select_db($conn, 'db_ejm1');
                 $query = 'SELECT * FROM Usuarios';
-                $result = pg_query($conn, $query);
-
-                if (!$result) {
-                    die("Error en la consulta: " . pg_last_error());
-                }
-
+                $result = mysqli_query($conn, $query);
                 echo '<table class="table table-striped">';
                 echo '<thead><tr><th>ID</th><th>Nombre del Usuario</th></tr></thead>';
-                
-                while ($row = pg_fetch_assoc($result)) {
+                while($value = $result->fetch_array(MYSQLI_ASSOC)){
                     echo '<tr>';
-                    echo '<td>' . $row['id'] . '</td>';
-                    echo '<td>' . $row['nombre'] . '</td>';
+                    foreach($value as $element){
+                        echo '<td>'.$element.'</td>';
+                    }
                     echo '</tr>';
                 }
-                
                 echo '</table>';
-                pg_free_result($result);
-                pg_close($conn);
+                $result->close();
+                mysqli_close($conn);
             ?>
         </div>
     </body>
